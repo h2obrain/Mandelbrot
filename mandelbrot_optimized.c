@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #define MAX 2500
 
@@ -36,7 +35,6 @@ color Z(double x, double y){
 
 	return i;
 }
-
 
 void show(){
 	printf("P2\n");
