@@ -14,6 +14,8 @@ typedef struct _Mandelbrot{
 	double	resy;
 
 	color	iter;
+
+	int	absolute;
 } Mandelbrot;
 
 #define ESCAPE2 4.0 /* square of mandelbrot escape */
@@ -32,12 +34,20 @@ static inline double convertY(const Mandelbrot *m, uint y){
 
 static inline color convertColor(const Mandelbrot *m, color c);
 
+#define ABSF(a) (a >= 0 ? a : -a)
+
 static color Z(const Mandelbrot *m, double x, double y){
 	double zx = 0;
 	double zy = 0;
 
 	color i;
 	for(i = 0; i < m->iter; ++i){
+		if (m->absolute){
+			// convert the fractal to burning ship
+			zx = ABSF(zx);
+			zy = ABSF(zy);
+		}
+
 		double zx2 = zx * zx;
 		double zy2 = zy * zy;
 
@@ -77,7 +87,8 @@ static const Mandelbrot *getMandelbrot(
 		uint scrx,      uint scry,
 		double centerx, double centery,
 		double half_widthx,
-		color iter
+		color iter,
+		int absolute
 	){
 
 	double half_widthy = half_widthx * scry / scrx;
@@ -94,6 +105,8 @@ static const Mandelbrot *getMandelbrot(
 	m.resy = m.resx;
 
 	m.iter = iter;
+
+	m.absolute = absolute;
 
 	return & m;
 }
@@ -113,17 +126,19 @@ static const Mandelbrot *getMandelbrot(
 //#define _convertColor	convertColorNone
 
 
-#define _getMandelbrot(x, y, zoom)  getMandelbrot(SCREEN, x, y, zoom, ITERATIONS)
+#define _getMandelbrot(x, y, zoom)	getMandelbrot(SCREEN, x, y, zoom, ITERATIONS, 0)
+#define _getBurningShip(x, y, zoom)	getMandelbrot(SCREEN, x, y, zoom, ITERATIONS, 1)
 
 int main(){
 	const Mandelbrot *m;
 
 //	m = _getMandelbrot(-0.500, +0.000, 1.800);	// BIG Picture
 //	m = _getMandelbrot(-1.770, +0.000, 0.060);	// Bulb Mandelbrot
-	m = _getMandelbrot(+0.336, +0.052, 0.012);	// Elephant valley
+//	m = _getMandelbrot(+0.336, +0.052, 0.012);	// Elephant valley
 //	m = _getMandelbrot(-0.747, +0.102, 0.005);	// Seahorse valley
 //	m = _getMandelbrot(-0.041, +0.682, 0.008);	// Triple spiral
-//	m = _getMandelbrot(-1.370, +0.040, 0.018);	// Country valley
+//	m = _getMandelbrot(-1.370, +0.040, 0.018);	// Imperial Orb valley
+	m = _getBurningShip(-1.760, -0.040, 0.060);	// Burning ship
 
 	show(m);
 
