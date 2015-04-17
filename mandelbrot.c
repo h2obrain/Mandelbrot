@@ -131,6 +131,7 @@ static const Mandelbrot *getMandelbrot(
 //#define ITERATIONS	1024
 //#define ITERATIONS	512
 #define ITERATIONS	255
+//#define ITERATIONS	160
 //#define ITERATIONS	128
 //#define ITERATIONS	64
 //#define ITERATIONS	32
@@ -161,13 +162,17 @@ int main(){
 //	m = _getBurningShip( 0.000, -1.015, 0.015);	// Burning ship mysterious lady
 
 //	m = _getPerpendBS(-0.50000, -0.50000, 1.80000);	// Perpendicular Burning ship, BIG Picture
-//	m = _getPerpendBS(-0.06990, +0.64980, 0.00040);	// Perpendicular Burning ship, IFS Tree Cardioid
+//	m = _getPerpendBS(-0.06415, +0.64968, 0.00015);	// Perpendicular Burning ship, First IFS Tree Cardioid (set iterations to 160)
+//	m = _getPerpendBS(-0.064154, +0.649703, 0.00001);	// Perpendicular Burning ship, Rhombus inside First IFS Tree Cardioid
+//	m = _getPerpendBS(-0.06990, +0.64980, 0.00040);	// Perpendicular Burning ship, Common IFS Tree Cardioid
+//	m = _getPerpendBS(-0.07400, +0.65071, 0.00030);	// Perpendicular Burning ship, Spiral galaxy (set iterations to 1024)
+
 //	m = _getPerpendBS(-0.07950, +0.65900, 0.00050);	// Perpendicular Burning ship, Humanoid creature - The Alien
 //	m = _getPerpendBS(-0.08183, +0.64945, 0.00005);	// Perpendicular Burning ship, Humanoid creature - The Minotaur
-//	m = _getPerpendBS(-0.09675, +0.65246, 0.00005);	// Perpendicular Burning ship, Humanoid creature - The Skull
-//	m = _getPerpendBS(-0.07400, +0.65071, 0.00030);	// Perpendicular Burning ship, Spiral galaxy (set iterations to 1024)
-//	m = _getPerpendBS(-0.23218, +0.70837, 0.00100);	// Perpendicular Burning ship, Butterfly "BIG" Picture
-	m = _getPerpendBS(-0.23218, +0.70837, 0.00005);	// Perpendicular Burning ship, Butterfly
+	m = _getPerpendBS(-0.09675, +0.65246, 0.00005);	// Perpendicular Burning ship, Humanoid creature - The Skull
+
+//	m = _getPerpendBS(-0.23218, +0.70837, 0.00100);	// Perpendicular Burning ship, Butterflies "BIG" Picture
+//	m = _getPerpendBS(-0.23218, +0.70837, 0.00005);	// Perpendicular Burning ship, Butterfly
 
 	show(m);
 
