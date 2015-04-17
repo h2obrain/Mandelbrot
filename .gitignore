@@ -1,2 +1,7 @@
 a.out
 *.pgm
+*.o
+
+mandelbrotcmd
+mandelbrotcmdarg
+

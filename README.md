@@ -2,6 +2,27 @@ Mandelbrot
 ==========
 Mandelbrot set in C
 
+I kept original version, because is easy to understand how it works. It is kept in original/mandelbrot_original.c
+
+Current version is optimized and have several advantages:
+
+- faster,
+- uses no array,
+- is able to zoom
+- have different coloring technics.
+
+## Build
+
+To build everything, do
+> make
+
+This will produce:
+
+- **mandelbrotcmd** - program where you can play with preprocessor and recompile
+- **mandelbrotcmdarg** - program that support arguments and you can use it "interactively", without recompilation.
+
+## How to build the original version:
+
 There is no makefile, to compile just do:
 > gcc mandelbrot_original.c
 
@@ -11,42 +32,42 @@ Then you can start it just with:
 
 >./a.out > x.pgm
 
+## Usage:
+
+You can start the programs that does not require any arguments simply as:
+>./mandelbrotcmd > x.pgm
+>./a.out > x.pgm
+
 x.pgm is text based graphic format, not so different from GIF, you can see it with several image viewers.
 
-You can see the image online here:
+Usage of **mandelbrotcmdarg** is similar:
 
-https://www.flickr.com/photos/nmmmnu/16892543768/
+Print arguments:
+>./mandelbrotcmdarg
 
-and here you can see some zoomed images:
+Produce a picture and save it in file **x.pgm**:
+>./mandelbrotcmdarg 800 600 0 0 16 0 0 3 > x.pgm
+
+Now you can use batch files and create a video using **mandelbrotcmdarg** and ffmpeg...
+
+##Online gallery:
 
 https://www.flickr.com/photos/nmmmnu/sets/72157651532271190/
 
-You can play with resolution (**MAX**) and zoom, just make sure there is no int overflow in **uint** type.
+##Licence
 
-Increasing **ITER** will increase colors, but 16 or 32 colors give best results. I did not tried over 255 colors, but there are no reason not to work, you need just to increase **color** type.
+License GPLv3+: GNU GPL version 3 or later
 
-Distribution is GPL.
+http://gnu.org/licenses/gpl.html
+
+This is free software: you are free to change and redistribute it.
 
 Nikolay Mihaylov
 
 2015-04-08
 
-
-
-Update 2015-04-14
-=================
-
-I kept original version, because is easy to understand how it works,
-but I made "optimized" version that is faster, uses no array, is able to zoom and have different coloring technics.
-
-Final goal of "optimized" version will be to make fractal zoom movie using ffmpeg.
-
-Try play with defines just before main() function.
-
-Distribution is GPL.
-
-Nikolay Mihaylov
-
-2015-04-14
-
+##Version history
+- 2015-04-08 - Original release
+- 2015-04-14 - Optimized release
+- 2015-04-17 - Release with program arguments
 
