@@ -51,6 +51,7 @@ inline float convertY(const Mandelbrot *m, uint y){
 
 // EO Resolution functions
 
+#define DO_ABS(a)	if (a < 0) a = -a
 
 // Z itself
 
@@ -60,19 +61,19 @@ static color Z(const Mandelbrot *m, float x, float y){
 
 	color i;
 	for(i = 0; i < m->iter; ++i){
-		if (m->absolute == 1){
-			// convert the fractal to burning ship
-			if (zx < 0)
-				zx = -zx;
+		switch(m->absolute){
+		case MANDELBROT_TYPE_CLASSIC:
+			// none
+			break;
 
-			if (zy < 0)
-				zy = -zy;
-		}
+		case MANDELBROT_TYPE_BURNINGSHIP:
+			DO_ABS(zx);
+			DO_ABS(zy);
+			break;
 
-		if (m->absolute == 2){
-			// convert the fractal to perpendicular burning ship
-			if (zy < 0)
-				zy = -zy;
+		case MANDELBROT_TYPE_PERPENDICULAR:
+			DO_ABS(zy);
+			break;
 		}
 
 		float zx2 = zx * zx;
@@ -121,7 +122,7 @@ int mandelbrot_generate_stdout(const Mandelbrot *m){
 
 const Mandelbrot *mandelbrot_get(Mandelbrot *m,
 		uint scrx,      uint scry,
-		uchar absolute,	uchar colorscheme,
+		enum MandelbrotType absolute,	enum MandelbrotColor colorscheme,
 		color iter,
 		float centerx, float centery,
 		float half_widthx

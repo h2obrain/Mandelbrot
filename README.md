@@ -28,10 +28,6 @@ There is no makefile, to compile just do:
 
 This will produce file called ./a.out
 
-Then you can start it just with:
-
->./a.out > x.pgm
-
 ## Usage:
 
 You can start the programs that does not require any arguments simply as:

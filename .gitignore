@@ -1,5 +1,9 @@
 a.out
+x
+
 *.pgm
+*.mp4
+
 *.o
 
 mandelbrotcmd

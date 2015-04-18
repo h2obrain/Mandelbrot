@@ -1,9 +1,10 @@
 MYCC	= clang
 MYCC	= gcc
 
-CC	= $(MYCC) -c -Wall
+CC	= $(MYCC) -c -Wall -O9
 LINK	= $(MYCC) -o
 LIBS	=
+#-lquadmath
 
 TARGETS = mandelbrotcmd mandelbrotcmdarg
 

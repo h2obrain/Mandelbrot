@@ -103,8 +103,8 @@ const Mandelbrot *getMandelbrotData(const char **s){
 		(uint) atol(s[1]),	// scr_x
 		(uint) atol(s[2]),	// scr_y
 
-		(uchar) atol(s[3]),	// mandelbrot type
-		(uchar) atol(s[4]),	// color scheme
+		(enum MandelbrotType)  atol(s[3]),	// mandelbrot type
+		(enum MandelbrotColor) atol(s[4]),	// color scheme
 		(color) atol(s[5]),	// iterations
 
 		(float) atof(s[6]),	// x
