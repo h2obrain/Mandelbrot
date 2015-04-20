@@ -1,0 +1,20 @@
+Here are some additional examples that are not included in mandelbrotcmdarg.c source code.
+They will be merged in mandelbrotcmdarg.c when some meaningful changes are made there.
+
+Perpendicular Burning Ship Examples:
+
+	Apolonian Gasket
+		./mandelbrotcmdarg 1280 1024 2 0 1024 0.12192 0.59345 0.000020
+
+	Sierpinski triangle
+		./mandelbrotcmdarg 1280 1024 2 0 1024 0.122671 0.59333 0.000002
+
+	IFS Square
+		./mandelbrotcmdarg 1280 1024 2 0 124 -0.2622 0.78855 0.00001
+
+	IFS Tree Cardioid
+		./mandelbrotcmdarg 1366 768 2 0 2048 0.0170499 0.96454995 0.00000015
+
+	Random shape
+		./mandelbrotcmdarg 1280 1024 2 0 64 -0.2645 0.78850 0.001
+

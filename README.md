@@ -32,6 +32,7 @@ This will produce file called ./a.out
 
 You can start the programs that does not require any arguments simply as:
 >./mandelbrotcmd > x.pgm
+
 >./a.out > x.pgm
 
 x.pgm is text based graphic format, not so different from GIF, you can see it with several image viewers.
@@ -66,4 +67,4 @@ Nikolay Mihaylov
 - 2015-04-08 - Original release
 - 2015-04-14 - Optimized release
 - 2015-04-17 - Release with program arguments
-
+- 2015-04-20 - Add Conjugate Mandelbrot

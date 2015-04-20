@@ -56,6 +56,10 @@ void printExamples(const char *p){
 	printf(mask, "Butterflies BIG Picture",			p, x, y, 2, 0, iter2, -0.232180, +0.708370, 0.00100);
 	printf(mask, "Butterfly",				p, x, y, 2, 0, iter2, -0.232180, +0.708370, 0.00005);
 
+
+	printf("%s\n", "Conjugate (Symmetrical) Mandelbrot Examples:");
+	printf(mask, "BIG picture",				p, x, y, 3, 0, iter,   0.000000,   0.000000,  2.50000);
+	printf(mask, "Elephant valley in Conjugate Mandelbrot",	p, x, y, 3, 0, 2048,  +1.8699952, +1.8699952, 0.0000003);
 }
 
 void printUsage(const char *p){
@@ -78,6 +82,7 @@ void printUsage(const char *p){
 	printf("\t %u - %s\n",		MANDELBROT_TYPE_CLASSIC,	"Mandelbrot");
 	printf("\t %u - %s\n",		MANDELBROT_TYPE_BURNINGSHIP,	"Burning Ship");
 	printf("\t %u - %s\n",		MANDELBROT_TYPE_PERPENDICULAR,	"Perpendicular Burning Ship / Perpendicular Mandelbrot");
+	printf("\t %u - %s\n",		MANDELBROT_TYPE_CONJUGATE,	"Conjugate (Symmetrical) Mandelbrot");
 	printf("\n");
 
 	printf("Color Shchemes:\n");

@@ -53,6 +53,12 @@ inline float convertY(const Mandelbrot *m, uint y){
 
 #define DO_ABS(a)	if (a < 0) a = -a
 
+inline static void SWAP(double *a, double *b){
+	double t = *a;
+	*a = *b;
+	*b = t;
+}
+
 // Z itself
 
 static color Z(const Mandelbrot *m, float x, float y){
@@ -73,6 +79,10 @@ static color Z(const Mandelbrot *m, float x, float y){
 
 		case MANDELBROT_TYPE_PERPENDICULAR:
 			DO_ABS(zy);
+			break;
+
+		case MANDELBROT_TYPE_CONJUGATE:
+			SWAP(&zx, &zy);
 			break;
 		}
 
