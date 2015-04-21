@@ -21,59 +21,59 @@ static void printExamples(const char *p){
 
 	printf("%s\n", "Mandelbrot Examples:");
 
-	printE("BIG picture",					p, 0, 0, iter,  -0.500, +0.000, 1.800);
-	printE("Bulb Mandelbrot",				p, 0, 0, iter,  -1.770, +0.000, 0.060);
+	printE("BIG picture",					p, 0, 0, iter,	-0.500, +0.000, 1.800);
+	printE("Bulb Mandelbrot",				p, 0, 0, iter,	-1.770, +0.000, 0.060);
 
-	printE("Elephant valley",				p, 0, 0, iter2, +0.336, +0.052, 0.012);
-	printE("Elephant valley (Cosmos colors)",		p, 0, 2, iter2, +0.336, +0.052, 0.012);
+	printE("Elephant valley",				p, 0, 0, iter2,	+0.336, +0.052, 0.012);
+	printE("Elephant valley (Cosmos colors)",		p, 0, 2, iter2,	+0.336, +0.052, 0.012);
 
-	printE("Seahorse valley",				p, 0, 0, 1024,  -0.747, +0.102, 0.005);
-	printE("Seahorse valley (Cosmos colors)",		p, 0, 2, iter2, -0.747, +0.102, 0.005);
+	printE("Seahorse valley",				p, 0, 0, 1024,	-0.747, +0.102, 0.005);
+	printE("Seahorse valley (Cosmos colors)",		p, 0, 2, iter2,	-0.747, +0.102, 0.005);
 
-	printE("Triple spiral",					p, 0, 0, iter2, -0.041, +0.682, 0.008);
-	printE("Triple spiral (Cosmos colors)",			p, 0, 2, iter2, -0.041, +0.682, 0.008);
+	printE("Triple spiral",					p, 0, 0, iter2,	-0.041, +0.682, 0.008);
+	printE("Triple spiral (Cosmos colors)",			p, 0, 2, iter2,	-0.041, +0.682, 0.008);
 
-	printE("Imperial Orb valley",				p, 0, 0, iter2, -1.370, +0.040, 0.018);
+	printE("Imperial Orb valley",				p, 0, 0, iter2,	-1.370, +0.040, 0.018);
 
 
 	printf("%s\n", "Burning Ship Examples:");
 
-	printE("BIG picture",					p, 1, 0, iter, -0.500, -0.500, 1.800);
+	printE("BIG picture",					p, 1, 0, iter,	-0.500, -0.500, 1.800);
 
-	printE("Burning ship in the armada",			p, 1, 0, iter2, -1.760, -0.040, 0.060);
-	printE("Burning ship in the armada (low iter)",		p, 1, 0, iter, -1.760, -0.040, 0.060);
+	printE("Burning ship in the armada",			p, 1, 0, iter2,	-1.760, -0.040, 0.060);
+	printE("Burning ship in the armada (low iter)",		p, 1, 0, iter,	-1.760, -0.040, 0.060);
 
-	printE("Antenna detail",				p, 1, 0, iter, -1.772, -0.040, 0.010);
-	printE("Mysterious lady",				p, 1, 0, iter,  0.000, -1.015, 0.015);
+	printE("Antenna detail",				p, 1, 0, iter,	-1.772, -0.040, 0.010);
+	printE("Mysterious lady",				p, 1, 0, iter,	+0.000, -1.015, 0.015);
 
-	printE("Hidden treasure",				p, 1, 0, 4096,  -1.73723891, -0.028338253, 0.000000005);
+	printE("Hidden treasure",				p, 1, 0, 4096,	-1.73723891, -0.028338253, 0.000000005);
 
-	printE("Hidden Forest",					p, 1, 0, 2048,  -1.737230, -0.028248, 0.00001);
-	printE("Hidden treasure",				p, 1, 0, 2048,  -1.7372348, -0.028248, 0.0000005);
+	printE("Hidden Forest",					p, 1, 0, 2048,	-1.73723000, -0.028248, 0.00001);
+	printE("Hidden treasure",				p, 1, 0, 2048,	-1.73723480, -0.028248, 0.0000005);
 
 
 	printf("%s\n", "Perpendicular Burning Ship Examples:");
 
-	printE("BIG picture",					p, 2, 0, iter2, -0.500000, -0.500000, 1.80000);
+	printE("BIG picture",					p, 2, 0, iter2,	-0.500000, -0.500000, 1.80000);
 
-	printE("First IFS Tree Cardioid",			p, 2, 0, iter2, -0.064150, +0.649680, 0.00015);
-	printE("Rhombus inside First IFS Tree Cardioid",	p, 2, 0, iter2, -0.064154, +0.649703, 0.00001);
-	printE("Common IFS Tree Cardioid",			p, 2, 0, iter2, -0.069900, +0.649800, 0.00040);
+	printE("First IFS Tree Cardioid",			p, 2, 0, iter2,	-0.064150, +0.649680, 0.00015);
+	printE("Rhombus inside First IFS Tree Cardioid",	p, 2, 0, iter2,	-0.064154, +0.649703, 0.00001);
+	printE("Common IFS Tree Cardioid",			p, 2, 0, iter2,	-0.069900, +0.649800, 0.00040);
 
-	printE("Spiral galaxy",					p, 2, 0, 1024, -0.074000, +0.650710, 0.00030);
+	printE("Spiral galaxy",					p, 2, 0, 1024,	-0.074000, +0.650710, 0.00030);
 
-	printE("Humanoid creature - The Alien",			p, 2, 0, iter2, -0.079500, +0.659000, 0.00050);
-	printE("Humanoid creature - The Minotaur",		p, 2, 0, iter2, -0.081830, +0.649450, 0.00005);
-	printE("Humanoid creature - The Skull",			p, 2, 0, iter2, -0.096750, +0.652460, 0.00005);
+	printE("Humanoid creature - The Alien",			p, 2, 0, iter2,	-0.079500, +0.659000, 0.00050);
+	printE("Humanoid creature - The Minotaur",		p, 2, 0, iter2,	-0.081830, +0.649450, 0.00005);
+	printE("Humanoid creature - The Skull",			p, 2, 0, iter2,	-0.096750, +0.652460, 0.00005);
 
-	printE("Butterflies BIG Picture",			p, 2, 0, iter2, -0.232180, +0.708370, 0.00100);
-	printE("Butterfly",					p, 2, 0, iter2, -0.232180, +0.708370, 0.00005);
+	printE("Butterflies BIG Picture",			p, 2, 0, iter2,	-0.232180, +0.708370, 0.00100);
+	printE("Butterfly",					p, 2, 0, iter2,	-0.232180, +0.708370, 0.00005);
 
 
 	printf("%s\n", "Conjugate (Symmetrical) Mandelbrot Examples:");
 
-	printE("BIG picture",					p, 3, 0, iter,   0.000000,   0.000000,  2.50000);
-	printE("Elephant valley in Conjugate Mandelbrot",	p, 3, 0, 2048,  +1.8699952, +1.8699952, 0.0000003);
+	printE("BIG picture",					p, 3, 0, iter,	+0.000000,   0.000000,  2.50000);
+	printE("Elephant valley in Conjugate Mandelbrot",	p, 3, 0, 2048,	+1.8699952, +1.8699952, 0.0000003);
 }
 
 static void printUsage(const char *p){
