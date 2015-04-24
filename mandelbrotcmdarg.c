@@ -9,7 +9,7 @@ static void printE(const char *descr, const char *p, uint type, uint colorsheme,
 	const uint scry = 1024;
 
 	static const char *mask1 = "   %s\n";
-	static const char *mask2 = "      %s %u %u %u %u %4u " EXAMPLE_FLOAT " " EXAMPLE_FLOAT " " EXAMPLE_FLOAT "\n\n";
+	static const char *mask2 = "      %s %u %u %3u %u %4u " EXAMPLE_FLOAT " " EXAMPLE_FLOAT " " EXAMPLE_FLOAT "\n\n";
 
 	printf(mask1, descr);
 	printf(mask2, p, scrx, scry, type, colorsheme, iter, xx, yy, zoom);
@@ -21,59 +21,64 @@ static void printExamples(const char *p){
 
 	printf("%s\n", "Mandelbrot Examples:");
 
-	printE("BIG picture",					p, 0, 0, iter,	-0.500, +0.000, 1.800);
-	printE("Bulb Mandelbrot",				p, 0, 0, iter,	-1.770, +0.000, 0.060);
+	printE("BIG picture",					p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	iter,	-0.500, +0.000, 1.800);
+	printE("Bulb Mandelbrot",				p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	iter,	-1.770, +0.000, 0.060);
 
-	printE("Elephant valley",				p, 0, 0, iter2,	+0.336, +0.052, 0.012);
-	printE("Elephant valley (Cosmos colors)",		p, 0, 2, iter2,	+0.336, +0.052, 0.012);
+	printE("Elephant valley",				p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	iter2,	+0.336, +0.052, 0.012);
+	printE("Elephant valley (Cosmos colors)",		p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_COSMOSMIX,	iter2,	+0.336, +0.052, 0.012);
 
-	printE("Seahorse valley",				p, 0, 0, 1024,	-0.747, +0.102, 0.005);
-	printE("Seahorse valley (Cosmos colors)",		p, 0, 2, iter2,	-0.747, +0.102, 0.005);
+	printE("Seahorse valley",				p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	1024,	-0.747, +0.102, 0.005);
+	printE("Seahorse valley (Cosmos colors)",		p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_COSMOSMIX,	iter2,	-0.747, +0.102, 0.005);
 
-	printE("Triple spiral",					p, 0, 0, iter2,	-0.041, +0.682, 0.008);
-	printE("Triple spiral (Cosmos colors)",			p, 0, 2, iter2,	-0.041, +0.682, 0.008);
+	printE("Triple spiral",					p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	iter2,	-0.041, +0.682, 0.008);
+	printE("Triple spiral (Cosmos colors)",			p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_COSMOSMIX,	iter2,	-0.041, +0.682, 0.008);
 
-	printE("Imperial Orb valley",				p, 0, 0, iter2,	-1.370, +0.040, 0.018);
+	printE("Imperial Orb valley",				p, MANDELBROT_TYPE_CLASSIC, MANDELBROT_COLOR_CLASSIC,	iter2,	-1.370, +0.040, 0.018);
 
 
 	printf("%s\n", "Burning Ship Examples:");
 
-	printE("BIG picture",					p, 1, 0, iter,	-0.500, -0.500, 1.800);
+	printE("BIG picture",					p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, iter,	-0.500, -0.500, 1.800);
 
-	printE("Burning ship in the armada",			p, 1, 0, iter2,	-1.760, -0.040, 0.060);
-	printE("Burning ship in the armada (low iter)",		p, 1, 0, iter,	-1.760, -0.040, 0.060);
+	printE("Burning ship in the armada",			p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, iter2,	-1.760, -0.040, 0.060);
+	printE("Burning ship in the armada (low iter)",		p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, iter,	-1.760, -0.040, 0.060);
 
-	printE("Antenna detail",				p, 1, 0, iter,	-1.772, -0.040, 0.010);
-	printE("Mysterious lady",				p, 1, 0, iter,	+0.000, -1.015, 0.015);
+	printE("Antenna detail",				p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, iter,	-1.772, -0.040, 0.010);
+	printE("Mysterious lady",				p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, iter,	+0.000, -1.015, 0.015);
 
-	printE("Hidden treasure",				p, 1, 0, 4096,	-1.73723891, -0.028338253, 0.000000005);
+	printE("Hidden treasure",				p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, 4096,	-1.73723891, -0.028338253, 0.000000005);
 
-	printE("Hidden Forest",					p, 1, 0, 2048,	-1.73723000, -0.028248, 0.00001);
-	printE("Hidden treasure",				p, 1, 0, 2048,	-1.73723480, -0.028248, 0.0000005);
+	printE("Hidden Forest",					p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, 2048,	-1.73723000, -0.028248, 0.00001);
+	printE("Hidden treasure",				p, MANDELBROT_TYPE_BURNINGSHIP, MANDELBROT_COLOR_CLASSIC, 2048,	-1.73723480, -0.028248, 0.0000005);
 
 
 	printf("%s\n", "Perpendicular Burning Ship Examples:");
 
-	printE("BIG picture",					p, 2, 0, iter2,	-0.500000, -0.500000, 1.80000);
+	printE("BIG picture",					p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.500000, -0.500000, 1.80000);
 
-	printE("First IFS Tree Cardioid",			p, 2, 0, iter2,	-0.064150, +0.649680, 0.00015);
-	printE("Rhombus inside First IFS Tree Cardioid",	p, 2, 0, iter2,	-0.064154, +0.649703, 0.00001);
-	printE("Common IFS Tree Cardioid",			p, 2, 0, iter2,	-0.069900, +0.649800, 0.00040);
+	printE("First IFS Tree Cardioid",			p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.064150, +0.649680, 0.00015);
+	printE("Rhombus inside First IFS Tree Cardioid",	p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.064154, +0.649703, 0.00001);
+	printE("Common IFS Tree Cardioid",			p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.069900, +0.649800, 0.00040);
 
-	printE("Spiral galaxy",					p, 2, 0, 1024,	-0.074000, +0.650710, 0.00030);
+	printE("Spiral galaxy",					p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, 1024,	-0.074000, +0.650710, 0.00030);
 
-	printE("Humanoid creature - The Alien",			p, 2, 0, iter2,	-0.079500, +0.659000, 0.00050);
-	printE("Humanoid creature - The Minotaur",		p, 2, 0, iter2,	-0.081830, +0.649450, 0.00005);
-	printE("Humanoid creature - The Skull",			p, 2, 0, iter2,	-0.096750, +0.652460, 0.00005);
+	printE("Humanoid creature - The Alien",			p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.079500, +0.659000, 0.00050);
+	printE("Humanoid creature - The Minotaur",		p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.081830, +0.649450, 0.00005);
+	printE("Humanoid creature - The Skull",			p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.096750, +0.652460, 0.00005);
 
-	printE("Butterflies BIG Picture",			p, 2, 0, iter2,	-0.232180, +0.708370, 0.00100);
-	printE("Butterfly",					p, 2, 0, iter2,	-0.232180, +0.708370, 0.00005);
+	printE("Butterflies BIG Picture",			p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.232180, +0.708370, 0.00100);
+	printE("Butterfly",					p, MANDELBROT_TYPE_PERPENDICULAR, MANDELBROT_COLOR_CLASSIC, iter2,	-0.232180, +0.708370, 0.00005);
 
 
 	printf("%s\n", "Conjugate (Symmetrical) Mandelbrot Examples:");
 
-	printE("BIG picture",					p, 3, 0, iter,	+0.000000,   0.000000,  2.50000);
-	printE("Elephant valley in Conjugate Mandelbrot",	p, 3, 0, 2048,	+1.8699952, +1.8699952, 0.0000003);
+	printE("BIG picture",					p, MANDELBROT_TYPE_CONJUGATE, MANDELBROT_COLOR_CLASSIC, iter,	+0.000000, 0.000000, 2.50000);
+	printE("Elephant valley in Conjugate Mandelbrot",	p, MANDELBROT_TYPE_CONJUGATE, MANDELBROT_COLOR_CLASSIC, 2048,	-1.474075, 0.000336, 0.000300);
+
+	printf("%s\n", "Conjugate (Swap) Mandelbrot Examples:");
+
+	printE("BIG picture",					p, MANDELBROT_TYPE_SWAP, MANDELBROT_COLOR_CLASSIC, iter,	+0.000000, 0.000000, 2.50000);
+
 }
 
 static void printUsage(const char *p){
@@ -84,27 +89,32 @@ static void printUsage(const char *p){
 		"\n"
 	);
 
+	static const char *mask = "\t %-20s - %s\n";
+
 	printf("Usage %s\n", p);
-	printf("\t %-20s - %s\n",	"[scr_x] [scr_y]",	"screen 'resolution' (800x600)");
-	printf("\t %-20s - %s\n",	"[mandelbrot type]",	"fractal type, 0 for standard mandelbrot");
-	printf("\t %-20s - %s\n",	"[color scheme]",	"color scheme, 0 for standard colors");
-	printf("\t %-20s - %s\n",	"[iterations]",		"iterations, usually 32, 64 or 255");
-	printf("\t %-20s - %s\n",	"[x] [y]",		"fractal center, 0, 0 for big picture");
-	printf("\t %-20s - %s\n",	"[xsize]",		"fractal half x size, 2 for big picture");
+	printf(mask,	"[scr_x] [scr_y]",	"screen 'resolution' (800x600)");
+	printf(mask,	"[mandelbrot type]",	"fractal type, 0 for standard mandelbrot");
+	printf(mask,	"[color scheme]",	"color scheme, 0 for standard colors");
+	printf(mask,	"[iterations]",		"iterations, usually 32, 64 or 255");
+	printf(mask,	"[x] [y]",		"fractal center, 0, 0 for big picture");
+	printf(mask,	"[xsize]",		"fractal half x size, 2 for big picture");
 	printf("\n");
 
+	static const char *mask2 = "\t %3u - %s\n";
+
 	printf("Mandelbrot types:\n");
-	printf("\t %u - %s\n",		MANDELBROT_TYPE_CLASSIC,	"Mandelbrot");
-	printf("\t %u - %s\n",		MANDELBROT_TYPE_BURNINGSHIP,	"Burning Ship");
-	printf("\t %u - %s\n",		MANDELBROT_TYPE_PERPENDICULAR,	"Perpendicular Burning Ship / Perpendicular Mandelbrot");
-	printf("\t %u - %s\n",		MANDELBROT_TYPE_CONJUGATE,	"Conjugate (Symmetrical) Mandelbrot");
+	printf(mask2,	MANDELBROT_TYPE_CLASSIC,	"Mandelbrot");
+	printf(mask2,	MANDELBROT_TYPE_BURNINGSHIP,	"Burning Ship");
+	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR,	"Perpendicular Burning Ship / Perpendicular Mandelbrot");
+	printf(mask2,	MANDELBROT_TYPE_CONJUGATE,	"Conjugate (Symmetrical) Mandelbrot");
+	printf(mask2,	MANDELBROT_TYPE_SWAP,		"Conjugate-Like (Swap) Mandelbrot");
 	printf("\n");
 
 	printf("Color Shchemes:\n");
-	printf("\t %u - %s\n",		MANDELBROT_COLOR_CLASSIC,	"Clasic scheme");
-	printf("\t %u - %s\n",		MANDELBROT_COLOR_COSMOS,	"Cosmos scheme");
-	printf("\t %u - %s\n",		MANDELBROT_COLOR_COSMOSMIX,	"Improved Cosmos scheme");
-	printf("\t %u - %s\n",		MANDELBROT_COLOR_NONE,		"None (educational to see the fractal itself)");
+	printf(mask2,	MANDELBROT_COLOR_CLASSIC,	"Clasic scheme");
+	printf(mask2,	MANDELBROT_COLOR_COSMOS,	"Cosmos scheme");
+	printf(mask2,	MANDELBROT_COLOR_COSMOSMIX,	"Improved Cosmos scheme");
+	printf(mask2,	MANDELBROT_COLOR_NONE,		"None (educational to see the fractal itself)");
 	printf("\n");
 
 	printExamples(p);

@@ -81,8 +81,12 @@ static color Z(const Mandelbrot *m, float x, float y){
 			DO_ABS(zy);
 			break;
 
-		case MANDELBROT_TYPE_CONJUGATE:
+		case MANDELBROT_TYPE_SWAP:
 			SWAP(&zx, &zy);
+			break;
+
+		case MANDELBROT_TYPE_CONJUGATE:
+			zy = - zy;
 			break;
 		}
 

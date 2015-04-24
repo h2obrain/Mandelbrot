@@ -19,5 +19,10 @@ Perpendicular Burning Ship Examples:
 		./mandelbrotcmdarg 1280 1024 2 0 64 -0.2645 0.78850 0.001
 
 Burning Ship Examples:
-	-
+	Ovals
+		./mandelbrotcmdarg 1280 1024 1 0 1024 -1.7364403 -0.0280156 0.000003
+	Amoeba
+		./mandelbrotcmdarg 1280 1024 1 0 1024 -1.7364923 -0.027937 0.000003
+	Cardioid
+		./mandelbrotcmdarg 1280 1024 1 0 400 -1.736515078125 -0.02789453865 0.00000000001
 
