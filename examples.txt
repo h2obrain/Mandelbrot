@@ -18,6 +18,9 @@ Perpendicular Burning Ship Examples:
 	Random shape
 		./mandelbrotcmdarg 1280 1024 2 0 64 -0.2645 0.78850 0.001
 
+	Baobab - True Binary Tree
+		./mandelbrotcmdarg 1280 1024 2 0  1300 -1.47655648 0.002558 0.0000001
+
 Burning Ship Examples:
 	Ovals
 		./mandelbrotcmdarg 1280 1024 1 0 1024 -1.7364403 -0.0280156 0.000003
