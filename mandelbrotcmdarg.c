@@ -115,6 +115,7 @@ static void printUsage(const char *p){
 	printf(mask2,	MANDELBROT_COLOR_COSMOS,	"Cosmos scheme");
 	printf(mask2,	MANDELBROT_COLOR_COSMOSMIX,	"Improved Cosmos scheme");
 	printf(mask2,	MANDELBROT_COLOR_REVERSE,	"Reverse scheme");
+	printf(mask2,	MANDELBROT_COLOR_CYCLIC,	"Cyclic scheme");
 	printf(mask2,	MANDELBROT_COLOR_NONE,		"None (educational to see the fractal itself)");
 	printf("\n");
 

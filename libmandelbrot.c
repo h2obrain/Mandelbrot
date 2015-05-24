@@ -13,6 +13,18 @@ inline color convertColorReverse(const Mandelbrot *m, color c){
 	return c == m->iter ? 0 : c;
 }
 
+inline color convertColorCyclic(const Mandelbrot *m, color c){
+	static const uint size2 = 64;
+	static const uint size  = 64 / 2;
+
+	int a = c == m->iter ? 0 : c % size2;
+
+	if (a > size)
+		a = size2 - a;
+
+	return a * (m->iter / (double) size);
+}
+
 inline color convertColorCosmos(const Mandelbrot *m, color c){
 	return c & 1 ? m->iter : 0;
 }
@@ -31,6 +43,7 @@ inline color convertColor(const Mandelbrot *m, color c){
 	case MANDELBROT_COLOR_COSMOS:		return convertColorCosmos(m, c);
 	case MANDELBROT_COLOR_COSMOSMIX:	return convertColorCosmosMix(m, c);
 	case MANDELBROT_COLOR_REVERSE:		return convertColorReverse(m, c);
+	case MANDELBROT_COLOR_CYCLIC:		return convertColorCyclic(m, c);
 	case MANDELBROT_COLOR_NONE:		return convertColorNone(m, c);
 	}
 
