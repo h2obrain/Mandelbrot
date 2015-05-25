@@ -29,3 +29,52 @@ Burning Ship Examples:
 	Cardioid
 		./mandelbrotcmdarg 1280 1024 1 0 400 -1.736515078125 -0.02789453865 0.00000000001
 
+Mandelbrot:
+	Micro mandelbrot bulb zoom
+		./mandelbrotcmdarg 1280 1024 0 4 1024 -1.9449855 0 0.000001
+
+	Micro mandelbrot bulb with antenna
+		./mandelbrotcmdarg 1280 1024 0 4 1024 -1.9449855 0 0.0001
+
+PBS:
+	Micro PBS bulb zoom
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.9449855 0 0.000001
+	Hidden flames in PBS:
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.502 0.002 0.01
+	Gate
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.7589025 -0.006431 0.0000025
+	Armada
+		./mandelbrotcmdarg 1280 1024 2 4 1024  -1.758361 -0.006285 0.000016
+	Mirror
+		./mandelbrotcmdarg 1280 1024 2 4 1024  -1.758406 -0.006294 0.000004
+	Pendant
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.62617405 -0.00123832 0.000001
+
+BS:
+	Hidden Garden
+		./mandelbrotcmdarg 1280 1024 1 4 1024 -1.939935 -0.00124 0.000006
+
+PM:
+	Drakula
+		./mandelbrotcmdarg 1280 1024   3 4  1024 -0.456126 0.784448 0.0004
+
+	Squid
+		./mandelbrotcmdarg 1280 1024   3 4  1024 -0.798464 0.178716 0.0015
+
+	Grotesque Face
+		./mandelbrotcmdarg 1280 1024   3 4  1024 -0.760193 0.084931 0.0003
+
+	Random
+		./mandelbrotcmdarg 1280 1024   3 4  1024 -0.348205 -0.860702 0.0005
+
+	Skull Valley
+		./mandelbrotcmdarg 1280 1024   3 4  1024 0.706316 0.851956 0.0001
+
+	Blob
+		./mandelbrotcmdarg 1280 1024   3 4  1024 -0.748880 0.122827  0.0003
+
+	Fences
+		./mandelbrotcmdarg 1280 1024   3 4  256 0.655084 0.913451  0.000005
+
+
+

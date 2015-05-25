@@ -70,6 +70,7 @@ inline float convertY(const Mandelbrot *m, uint y){
 // EO Resolution functions
 
 #define DO_ABS(a)	if (a < 0) a = -a
+#define DO_ABSR(a)	if (a > 0) a = -a
 
 inline static void SWAP(double *a, double *b){
 	double t = *a;
@@ -95,15 +96,15 @@ static color Z(const Mandelbrot *m, float x, float y){
 			DO_ABS(zy);
 			break;
 
-		case MANDELBROT_TYPE_PERPENDICULAR:
+		case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP:
 			DO_ABS(zy);
 			break;
 
-		case MANDELBROT_TYPE_SWAP:
-			SWAP(&zx, &zy);
+		case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT:
+			DO_ABSR(zx);
 			break;
 
-		case MANDELBROT_TYPE_CONJUGATE:
+		case MANDELBROT_TYPE_MANDELBAR:
 			zy = - zy;
 			break;
 		}
