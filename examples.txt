@@ -76,5 +76,35 @@ PM:
 	Fences
 		./mandelbrotcmdarg 1280 1024   3 4  256 0.655084 0.913451  0.000005
 
+BS:
+	Flower
+		./mandelbrotcmdarg 1280 1024   1 0   64 -1.7397 0 0.0005
+		./mandelbrotcmdarg 1280 1024   1 4   1024 -1.749319 0.0000593  0.000002
+		./mandelbrotcmdarg 1280 1024   1 4   1024 -1.748764 0.0000057 0.00001
+		./mandelbrotcmdarg 1280 1024   1 4   1024 -1.7433355 0.000038  0.00001
+	Microship
+		./mandelbrotcmdarg 1280 1024 1 4 1024 -1.4730195 0.000006 0.0000008
 
+PM:
+	The Visage of War
+		./mandelbrotcmdarg 1280 1024   3 4   1024 -1.78508988223 0.00003814529 0.00000000005
 
+	Fire
+		./mandelbrotcmdarg 1280 1024   3 4   1024 -1.762839 -0.012836 0.00001
+
+	Cardioid
+		./mandelbrotcmdarg 1280 1024   3 4   1024 -1.7628397869 -0.0128296552  0.0000000005
+		./mandelbrotcmdarg 1280 1024   3 4   1024 -1.7628443880 -0.0128367596  0.0000000002
+	Swirl
+		./mandelbrotcmdarg 1280 1024   3 0   1024 -0.46006 0.77812  0.00005
+
+PBS:
+	Swirl
+		./mandelbrotcmdarg 1280 1024 2 4 1024 0.231664 0.534623  0.0003
+	Mini PM in PBS
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.7357397 -0.0001173 0.000005
+	Cardioids in Mini PM in PBS
+		./mandelbrotcmdarg 1280 1024 2 4 1024 -1.735739470 -0.000117546 0.00000001
+		./mandelbrotcmdarg 1280 1024 2 4 2048 -1.735739473 -0.0001175456 0.0000000005
+	Grid in Mini PM in PBS
+		./mandelbrotcmdarg 1280 1024 2 4 1200 -1.721900635 -0.00042253 0.00000002
