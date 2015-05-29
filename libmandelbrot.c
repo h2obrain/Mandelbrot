@@ -72,6 +72,10 @@ inline float convertY(const Mandelbrot *m, uint y){
 #define DO_ABS(a)	if (a < 0) a = -a
 #define DO_ABSR(a)	if (a > 0) a = -a
 
+inline static float ABS(float a){
+	return a > 0 ? a : -a;
+}
+
 inline static void SWAP(double *a, double *b){
 	double t = *a;
 	*a = *b;
@@ -171,6 +175,72 @@ static color Z_perpendicularmandelbrot(float x, float y, color it){
 	return i;
 }
 
+static color Z_buffalo(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		DO_ABS(zy);
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy + y;
+		zx = ABS(zx2 - zy2) + x;
+	}
+
+	return i;
+}
+
+static color Z_celtic(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = - 2 * zx * zy + y;
+		zx = ABS(zx2 - zy2) + x;
+	}
+
+	return i;
+}
+
+static color Z_perpendicularceltic(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		DO_ABSR(zx);
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy + y;
+		zx = ABS(zx2 - zy2) + x;
+	}
+
+	return i;
+}
 
 static color Z_mandelbar(float x, float y, color it){
 	float zx = 0;
@@ -197,10 +267,13 @@ static color Z_mandelbar(float x, float y, color it){
 
 static color Z(const Mandelbrot *m, float x, float y){
 	switch(m->absolute){
-	case MANDELBROT_TYPE_CLASSIC			: return Z_mandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_MANDELBROT			: return Z_mandelbrot(x, y, m->iter);
 	case MANDELBROT_TYPE_BURNINGSHIP		: return Z_burningship(x, y, m->iter);
 	case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP	: return Z_perpendicularburningship(x, y, m->iter);
 	case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT	: return Z_perpendicularmandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_CELTIC			: return Z_celtic(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_CELTIC	: return Z_perpendicularceltic(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO	: return Z_buffalo(x, y, m->iter);
 	case MANDELBROT_TYPE_MANDELBAR			: return Z_mandelbar(x, y, m->iter);
 	}
 	
