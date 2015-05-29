@@ -80,34 +80,35 @@ inline static void SWAP(double *a, double *b){
 
 // Z itself
 
-static color Z(const Mandelbrot *m, float x, float y){
+static color Z_mandelbrot(float x, float y, color it){
 	float zx = 0;
 	float zy = 0;
 
 	color i;
-	for(i = 0; i < m->iter; ++i){
-		switch(m->absolute){
-		case MANDELBROT_TYPE_CLASSIC:
-			// none
-			break;
+	for(i = 0; i < it; ++i){
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
 
-		case MANDELBROT_TYPE_BURNINGSHIP:
-			DO_ABS(zx);
-			DO_ABS(zy);
-			break;
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
 
-		case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP:
-			DO_ABS(zy);
-			break;
+		// z = z*z + c
 
-		case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT:
-			DO_ABSR(zx);
-			break;
+		zy = 2 * zx * zy + y;
+		zx = zx2 - zy2 + x;
+	}
 
-		case MANDELBROT_TYPE_MANDELBAR:
-			zy = - zy;
-			break;
-		}
+	return i;
+}
+
+static color Z_burningship(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		DO_ABS(zx);
+		DO_ABS(zy);
 
 		float zx2 = zx * zx;
 		float zy2 = zy * zy;
@@ -122,6 +123,88 @@ static color Z(const Mandelbrot *m, float x, float y){
 	}
 
 	return i;
+}
+
+static color Z_perpendicularburningship(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		DO_ABS(zy);
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy + y;
+		zx = zx2 - zy2 + x;
+	}
+
+	return i;
+}
+
+static color Z_perpendicularmandelbrot(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		DO_ABSR(zx);
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy + y;
+		zx = zx2 - zy2 + x;
+	}
+
+	return i;
+}
+
+
+static color Z_mandelbar(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+		zy = - zy;
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy + y;
+		zx = zx2 - zy2 + x;
+	}
+
+	return i;
+}
+
+static color Z(const Mandelbrot *m, float x, float y){
+	switch(m->absolute){
+	case MANDELBROT_TYPE_CLASSIC			: return Z_mandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_BURNINGSHIP		: return Z_burningship(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP	: return Z_perpendicularburningship(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT	: return Z_perpendicularmandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_MANDELBAR			: return Z_mandelbar(x, y, m->iter);
+	}
+	
+	return Z_mandelbrot(x, y, m->iter);;
 }
 
 // EO Z itself
