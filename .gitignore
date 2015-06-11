@@ -6,6 +6,9 @@ x
 
 *.o
 
+.cproject
+.project
+
 mandelbrotcmd
 mandelbrotcmdarg
 

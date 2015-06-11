@@ -78,7 +78,7 @@ static void printExamples(const char *p){
 	printf("%s\n", "Conjugate (Symmetrical) Mandelbrot Examples:");
 
 	printE("BIG picture",					p, MANDELBROT_TYPE_MANDELBAR,			MANDELBROT_COLOR_CLASSIC, 	iter,	+0.000000, 0.000000, 2.50000);
-	printE("Elephant valley in Conjugate Mandelbrot",	p, MANDELBROT_TYPE_MANDELBAR,			MANDELBROT_COLOR_CLASSIC, 	2048,	-1.474075, 0.000336, 0.000300);
+	printE("Elephant valley in Mandelbar",			p, MANDELBROT_TYPE_MANDELBAR,			MANDELBROT_COLOR_CLASSIC, 	2048,	-1.474075, 0.000336, 0.000300);
 
 }
 
@@ -113,7 +113,7 @@ static void printUsage(const char *p){
 	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR_CELTIC,		"Perpendicular Celtic");
 	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR_BUFFALO,		"Perpendicular Buffalo");
 
-	printf(mask2,	MANDELBROT_TYPE_MANDELBAR,			"Mandelbar / Conjugate Mandelbrot");
+	printf(mask2,	MANDELBROT_TYPE_MANDELBAR,			"Mandelbar (Tricorn)");
 	printf("\n");
 
 	printf("Color Shchemes:\n");
