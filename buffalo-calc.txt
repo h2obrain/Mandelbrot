@@ -1,0 +1,27 @@
+
+
+
+Z*Z - Z =
+
+(x + iy) ( x + iy)    - (x + iy) = 
+
+x ^ 2 + i xy + i xy - y ^ 2  - x -i y =
+
+x ^ 2 - y ^ 2 + 2 i xy - x - i y = 
+
+x ^ 2 - y ^ 2 + i y ( 2 x - 1 ) - x
+
+
+
+real = x * x - y * y - x
+im   = y ( 2 x - 1 )
+
+
+
+
+x ^ 2 - y ^ 2 - x  + 2 i xy  - i y = 
+
+
+real = x * x - y * y - x
+im   = 2 xy - y
+

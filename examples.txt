@@ -116,3 +116,24 @@ PBS:
 		./mandelbrotcmdarg 1280 1024   2 4 1024 0.35635 0.34722 0.00005
 	Le Roi Soleil
 		./mandelbrotcmdarg 1280 1024   2 4 1024 0.122117 0.592448 0.0001
+
+Perpendicular Buffallo
+	Flower
+		./mandelbrotcmdarg 1280 1024 6 4 2048 -1.748837 0.0 0.000005
+		
+Perpendicular Seltic
+	Alien hive
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.7683 -0.3526 0.01
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.78 -0.197 0.01
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.801 -0.185  0.015
+	
+	Misc shapes
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.75 -0.209  0.01 
+		./mandelbrotcmdarg 1280 1024 5 4 64 0.01988 -0.8926 0.003 
+	Crown
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.80064 -0.27657 0.01 > x.pgm
+	Crown Gem
+		./mandelbrotcmdarg 1280 1024 5 4 64 -0.80064 -0.27657 0.002 > x.pgm
+	
+		
+		

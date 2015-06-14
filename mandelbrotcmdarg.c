@@ -112,6 +112,8 @@ static void printUsage(const char *p){
 	printf(mask2,	MANDELBROT_TYPE_CELTIC,				"Celtic");
 	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR_CELTIC,		"Perpendicular Celtic");
 	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR_BUFFALO,		"Perpendicular Buffalo");
+	
+	printf(mask2,	MANDELBROT_TYPE_PERPENDICULAR_BUFFALO_ORGIGINAL,	"Perpendicular Buffalo (Original)");
 
 	printf(mask2,	MANDELBROT_TYPE_MANDELBAR,			"Mandelbar (Tricorn)");
 	printf("\n");

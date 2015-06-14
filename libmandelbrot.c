@@ -175,7 +175,31 @@ static color Z_perpendicularmandelbrot(float x, float y, color it){
 	return i;
 }
 
-static color Z_buffalo(float x, float y, color it){
+static color Z_perpendicularbuffaloreal(float x, float y, color it){
+	float zx = 0;
+	float zy = 0;
+
+	color i;
+	for(i = 0; i < it; ++i){
+	//	DO_ABS(zx);
+	//	DO_ABS(zy);
+
+		float zx2 = zx * zx;
+		float zy2 = zy * zy;
+
+		if (zx2 + zy2 > ESCAPE2)
+			return i;
+
+		// z = z*z + c
+
+		zy = 2 * zx * zy - zy + y; 
+		zx = zx2 - zy2 - zx + x;
+	}
+
+	return i;
+}
+
+static color Z_perpendicularbuffalo(float x, float y, color it){
 	float zx = 0;
 	float zy = 0;
 
@@ -267,14 +291,15 @@ static color Z_mandelbar(float x, float y, color it){
 
 static color Z(const Mandelbrot *m, float x, float y){
 	switch(m->absolute){
-	case MANDELBROT_TYPE_MANDELBROT			: return Z_mandelbrot(x, y, m->iter);
-	case MANDELBROT_TYPE_BURNINGSHIP		: return Z_burningship(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP	: return Z_perpendicularburningship(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT	: return Z_perpendicularmandelbrot(x, y, m->iter);
-	case MANDELBROT_TYPE_CELTIC			: return Z_celtic(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_CELTIC	: return Z_perpendicularceltic(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO	: return Z_buffalo(x, y, m->iter);
-	case MANDELBROT_TYPE_MANDELBAR			: return Z_mandelbar(x, y, m->iter);
+	case MANDELBROT_TYPE_MANDELBROT				: return Z_mandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_BURNINGSHIP			: return Z_burningship(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP		: return Z_perpendicularburningship(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT		: return Z_perpendicularmandelbrot(x, y, m->iter);
+	case MANDELBROT_TYPE_CELTIC				: return Z_celtic(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_CELTIC		: return Z_perpendicularceltic(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO		: return Z_perpendicularbuffalo(x, y, m->iter);
+	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO_ORGIGINAL	: return Z_perpendicularbuffaloreal(x, y, m->iter);
+	case MANDELBROT_TYPE_MANDELBAR				: return Z_mandelbar(x, y, m->iter);
 	}
 	
 	return Z_mandelbrot(x, y, m->iter);;
