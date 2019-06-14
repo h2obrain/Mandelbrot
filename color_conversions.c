@@ -1,28 +1,11 @@
-#include <stdint.h>
-#include <stdbool.h>
+#include "color_conversions.h"
 #include <assert.h>
 #include <stdio.h>
 
-// types are little endian!
 // formulas are from https://en.wikipedia.org/wiki/HSL_and_HSV#To_RGB
 
 // the rounding in this document is all wrong
 // Note: if a student would write this, he would fail the class (but i am not a student)
-
-typedef union {
-	struct { uint8_t b,g,r; };
-	uint32_t c;
-} rgb_color_t;
-
-typedef union {
-	struct { uint8_t l,s,h; };
-	uint32_t c;
-} hsl_color_t;
-
-typedef union {
-	struct { uint8_t v,s,h; };
-	uint32_t c;
-} hsv_color_t;
 
 #define ABSI(x) ((x)<0 ? -(x) : (x))
 
@@ -57,7 +40,7 @@ rgb_color_t hsv_to_rgb(hsv_color_t hsv) {
 	int32_t c  = v * s;
 	int32_t m  = v * 255 - c;
 	//printf(" %7.3f %7.3f ",(double)c/255,(double)m/255);
-	return hsX_to_rgb(hsv.h,c,m);
+	return hsX_to_rgb(h,c,m);
 }
 rgb_color_t hsX_to_rgb(int32_t h, int32_t c, int32_t m) {
 	int32_t h_  = h * (360/60);
@@ -217,6 +200,8 @@ hsv_color_t hsv_from_rgb(rgb_color_t rgb) {
 }
 
 
+#ifdef TEST
+
 static
 void test_hsl(hsl_color_t hsl) {
 	rgb_color_t rgb;
@@ -279,35 +264,45 @@ int main(void) {
 			//printf("###################\n");
 		//}
 	//}
+	//printf("# HSL #############\n");
+	//for (uint32_t j = 0; j<256; j+=5) {
+		//for (uint32_t k = 0; k<256; k+=5) {
+			//char outp[1<<16];
+			//outp[0]='\0';
+			//char *p = outp;
+			//for (uint32_t i = 0; i<256; i++) {
+				//rgb_color_t rgb;
+				//rgb = hsl_to_rgb((hsl_color_t){.h=i,.s=j,.l=k});
+				//p+=sprintf(p,"\033[0;38;2;%d;%d;%dm█",rgb.r,rgb.g,rgb.b);
+			//}
+			//sprintf(p,"\033[0m\n");
+			//printf(outp);
+			//nanosleep(&delay,NULL);
+		//}
+	//}
+	//printf("# HSV #############\n");
+	//for (uint32_t j = 0; j<256; j+=5) {
+		//for (uint32_t k = 0; k<256; k+=5) {
+			//char outp[1<<16];
+			//outp[0]='\0';
+			//char *p = outp;
+			//for (uint32_t i = 0; i<256; i++) {
+				//rgb_color_t rgb;
+				//rgb = hsv_to_rgb((hsv_color_t){.h=i,.s=j,.v=k});
+				//p+=sprintf(p,"\033[0;38;2;%d;%d;%dm█",rgb.r,rgb.g,rgb.b);
+			//}
+			//sprintf(p,"\033[0m\n");
+			//printf(outp);
+			//nanosleep(&delay,NULL);
+		//}
+	//}
 	printf("# HSL #############\n");
-	for (uint32_t j = 0; j<256; j+=5) {
-		for (uint32_t k = 0; k<256; k+=5) {
-			char outp[1<<16];
-			outp[0]='\0';
-			char *p = outp;
-			for (uint32_t i = 0; i<256; i++) {
-				rgb_color_t rgb;
-				rgb = hsl_to_rgb((hsl_color_t){.h=i,.s=j,.l=k});
-				p+=sprintf(p,"\033[0;38;2;%d;%d;%dm█",rgb.r,rgb.g,rgb.b);
-			}
-			sprintf(p,"\033[0m\n");
-			printf(outp);
-			nanosleep(&delay,NULL);
-		}
-	}
-	printf("# HSV #############\n");
-	for (uint32_t j = 0; j<256; j+=5) {
-		for (uint32_t k = 0; k<256; k+=5) {
-			char outp[1<<16];
-			outp[0]='\0';
-			char *p = outp;
-			for (uint32_t i = 0; i<256; i++) {
-				rgb_color_t rgb;
-				rgb = hsv_to_rgb((hsv_color_t){.h=i,.s=j,.v=k});
-				p+=sprintf(p,"\033[0;38;2;%d;%d;%dm█",rgb.r,rgb.g,rgb.b);
-			}
-			sprintf(p,"\033[0m\n");
-			printf(outp);
+	for (uint32_t i = 0; i<256*256; i++) {
+		rgb_color_t rgb;
+		rgb = hsl_to_rgb((hsl_color_t){.h=i>>8,.s=255,.l=i&255});
+		printf("\033[0;38;2;%d;%d;%dm█",rgb.r,rgb.g,rgb.b);
+		if (i%256==0) {
+			printf("\033[0m\n");
 			nanosleep(&delay,NULL);
 		}
 	}
@@ -322,57 +317,4 @@ int main(void) {
 	printf("\033[0m\n");
 }
 
-
-/*
-rgb_color_t hsl_to_rgb(hsl_color_t hsl) {
-	int32_t cl = 2*((int32_t)hsl.l+1)-256;
-	int32_t c  = 256 - ABSI(cl);
-	int32_t m  = hsl.l - c/2; // round c
-	c--;
-	int32_t h  = (int32_t)(hsl.h);
-	int32_t h_ = h * (360/60); // /256
-	int32_t xh = (h_%512)-256;
-	int32_t x  = ((c * (256-ABSI(xh))) + 128) / 256; // round
-	
-	int32_t r1,g1,b1;
-	//printf("c=%3d m=%3d h_/60=%3d h_=%3d x=%3d  ?=%3d",c,m,h_/256,h_,x,(256-ABSI((h_%512)-256)));
-	//printf("%3d ",ABSI(((h_%512)-256)));
-	switch (h_/256) {
-		case 0:
-			r1 = m+c;
-			g1 = m+x;
-			b1 = m+0;
-			break;
-		case 1:
-			r1 = m+x;
-			g1 = m+c;
-			b1 = m+0;
-			break;
-		case 2:
-			r1 = m+0;
-			g1 = m+c;
-			b1 = m+x;
-			break;
-		case 3:
-			r1 = m+0;
-			g1 = m+x;
-			b1 = m+c;
-			break;
-		case 4:
-			r1 = m+x;
-			g1 = m+0;
-			b1 = m+c;
-			break;
-		case 6:
-		case 5:
-			r1 = m+c;
-			g1 = m+0;
-			b1 = m+x;
-			break;
-	}
-	assert((r1>=0)&&(r1<=255));
-	assert((g1>=0)&&(g1<=255));
-	assert((b1>=0)&&(b1<=255));
-	return (rgb_color_t){.r=(uint8_t)(r1),.g=(uint8_t)(g1),.b=(uint8_t)(b1)};
-}
-*/
+#endif

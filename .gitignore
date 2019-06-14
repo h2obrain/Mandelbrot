@@ -2,6 +2,7 @@ a.out
 x
 
 *.pgm
+*.pbm
 *.mp4
 
 *.o

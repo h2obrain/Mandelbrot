@@ -4,11 +4,15 @@
 #include <stdio.h>	// FILE
 //#include <quadmath.h>
 
-#define uint	unsigned int
-#define color	unsigned short int
-#define float	double
+#include <stdint.h>
 
-//#define float	__float128
+#include "color_conversions.h"
+
+//#define color	unsigned short int
+typedef uint32_t iter_t;
+typedef double mfloat_t;
+
+//#define mfloat_t	__float128
 
 enum MandelbrotColor{
 	MANDELBROT_COLOR_CLASSIC = 0,
@@ -16,6 +20,8 @@ enum MandelbrotColor{
 	MANDELBROT_COLOR_COSMOSMIX,
 	MANDELBROT_COLOR_REVERSE,
 	MANDELBROT_COLOR_CYCLIC,
+	MANDELBROT_COLOR_RGB,
+	MANDELBROT_COLOR_RGBL,
 	MANDELBROT_COLOR_NONE
 };
 
@@ -32,19 +38,19 @@ enum MandelbrotType{
 };
 
 typedef struct _Mandelbrot{
-	uint	scrx;
-	uint	scry;
+	uint32_t scrx;
+	uint32_t scry;
 
-	float	x;
-	float	y;
+	mfloat_t x;
+	mfloat_t y;
 
-	float	resx;
-	float	resy;
+	mfloat_t resx;
+	mfloat_t resy;
 
-	color	iter;
+	iter_t iter;
 
-	enum MandelbrotType	absolute;
-	enum MandelbrotColor	colorscheme;
+	enum MandelbrotType  absolute;
+	enum MandelbrotColor colorscheme;
 } Mandelbrot;
 
 
@@ -52,12 +58,12 @@ int mandelbrot_generate(const Mandelbrot *m, FILE *F);
 int mandelbrot_generate_stdout(const Mandelbrot *m);
 
 const Mandelbrot *mandelbrot_get(Mandelbrot *m,
-		uint scrx,      uint scry,
-		enum MandelbrotType absolute,	enum MandelbrotColor colorscheme,
-		color iter,
-
-		float centerx, float centery,
-		float half_widthx
-);
+		uint32_t scrx, uint32_t scry,
+		enum MandelbrotType absolute,
+		enum MandelbrotColor colorscheme,
+		iter_t iter,
+		mfloat_t centerx, mfloat_t centery,
+		mfloat_t half_widthx
+	);
 
 #endif

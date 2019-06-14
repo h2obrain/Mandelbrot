@@ -5,65 +5,166 @@
 
 // Coloring
 
-inline color convertColorClassic(const Mandelbrot *m, color c){
-	return m->iter - c;
+static inline
+color_t convertColorClassic(const Mandelbrot *m, iter_t c){
+	return (color_t){.raw = m->iter - c};
 }
 
-inline color convertColorReverse(const Mandelbrot *m, color c){
-	return c == m->iter ? 0 : c;
+static inline
+color_t convertColorReverse(const Mandelbrot *m, iter_t c){
+	return (color_t){.raw = c == m->iter ? 0 : c};
 }
 
-inline color convertColorCyclic(const Mandelbrot *m, color c){
-	static const uint size2 = 64;
-	static const uint size  = 64 / 2;
+static inline
+color_t convertColorCyclic(const Mandelbrot *m, iter_t c){
+	static const uint32_t size2 = 64;
+	static const uint32_t size  = 64 / 2;
 
 	int a = c == m->iter ? 0 : c % size2;
 
 	if (a > size)
 		a = size2 - a;
 
-	return a * (m->iter / (double) size);
+	return (color_t){.raw = a * (m->iter / (mfloat_t) size)};
 }
 
-inline color convertColorCosmos(const Mandelbrot *m, color c){
-	return c & 1 ? m->iter : 0;
+static inline
+color_t convertColorCosmos(const Mandelbrot *m, iter_t c){
+	return (color_t){.raw = c & 1 ? m->iter : 0};
 }
 
-inline color convertColorCosmosMix(const Mandelbrot *m, color c){
-	return c & 1 ? convertColorClassic(m, c) : 0;
+static inline
+color_t convertColorCosmosMix(const Mandelbrot *m, iter_t c){
+	return (color_t){.raw = c & 1 ? convertColorClassic(m, c).raw : 0};
 }
 
-inline color convertColorNone(const Mandelbrot *m, color c){
-	return c < m->iter ? m->iter : 0;
+static inline
+color_t convertColorRGB(const Mandelbrot *m, iter_t c){
+	return (color_t){.rgb=hsl_to_rgb((hsl_color_t){.h=c&256?255-c%256:c%256,.s=255,.l=128})};
 }
 
-inline color convertColor(const Mandelbrot *m, color c){
-	switch(m->colorscheme){
-	case MANDELBROT_COLOR_CLASSIC:		return convertColorClassic(m, c);
-	case MANDELBROT_COLOR_COSMOS:		return convertColorCosmos(m, c);
-	case MANDELBROT_COLOR_COSMOSMIX:	return convertColorCosmosMix(m, c);
-	case MANDELBROT_COLOR_REVERSE:		return convertColorReverse(m, c);
-	case MANDELBROT_COLOR_CYCLIC:		return convertColorCyclic(m, c);
-	case MANDELBROT_COLOR_NONE:		return convertColorNone(m, c);
+static inline
+color_t convertColorRGBL(const Mandelbrot *m, iter_t c){
+	static bool init = true;
+	static iter_t mod, f, o, bm, s;
+	if (init) {
+		init=false;
+		mod = 65536<m->iter?65536:m->iter;
+		iter_t r = m->iter>>8;
+		if (r) r--;
+		if (r) {
+			f = 1;
+			bm = 0;
+			for (s=0;r&&(s<16-8);s++,r>>=1) {
+				f *= 2;
+				bm  = (bm<<1)|1;
+			}
+			o = (256-f)/2;
+			f =  256/f;
+		} else {
+			f = 0;
+			o = 128;
+		}
 	}
+	c = c%mod;
+	return (color_t){.rgb=hsl_to_rgb((hsl_color_t){.h=c>>s,.s=255,.l=o+(c&bm)*f})};
+}
 
+static inline
+color_t convertColorNone(const Mandelbrot *m, iter_t c){
+	return (color_t){.raw = c < m->iter ? m->iter : 0};
+}
+
+static inline
+color_t convertColor(const Mandelbrot *m, iter_t c){
+	switch(m->colorscheme){
+		case MANDELBROT_COLOR_CLASSIC:
+			return convertColorClassic(m, c);
+		case MANDELBROT_COLOR_COSMOS:
+			return convertColorCosmos(m, c);
+		case MANDELBROT_COLOR_COSMOSMIX:
+			return convertColorCosmosMix(m, c);
+		case MANDELBROT_COLOR_REVERSE:
+			return convertColorReverse(m, c);
+		case MANDELBROT_COLOR_CYCLIC:
+			return convertColorCyclic(m, c);
+		case MANDELBROT_COLOR_RGB:
+			return convertColorRGB(m, c);
+		case MANDELBROT_COLOR_RGBL:
+			return convertColorRGBL(m, c);
+		case MANDELBROT_COLOR_NONE:
+			return convertColorNone(m, c);
+	}
 	return convertColorClassic(m, c);
 }
+
+static inline
+void writeHeader(const Mandelbrot *m, FILE *F){
+	switch(m->colorscheme){
+		case MANDELBROT_COLOR_CLASSIC:
+		case MANDELBROT_COLOR_COSMOS:
+		case MANDELBROT_COLOR_COSMOSMIX:
+		case MANDELBROT_COLOR_REVERSE:
+		case MANDELBROT_COLOR_CYCLIC:
+		case MANDELBROT_COLOR_NONE:
+			fprintf(F, "P2\n");
+			fprintf(F, "%u %u\n", m->scrx, m->scry);
+			fprintf(F, "%u\n", m->iter); /* total steps */
+			break;
+		case MANDELBROT_COLOR_RGB:
+		case MANDELBROT_COLOR_RGBL:
+			fprintf(F, "P3\n");
+			fprintf(F, "%u %u\n", m->scrx, m->scry);
+			//fprintf(F, "%u\n", m->iter); /* steps per iter_t */
+			fprintf(F, "255\n"); /* use full scale rgb.. */
+			break;
+	}
+}
+static inline
+void writeColor(const Mandelbrot *m, FILE *F,iter_t c){
+	switch(m->colorscheme){
+		case MANDELBROT_COLOR_CLASSIC:
+		case MANDELBROT_COLOR_COSMOS:
+		case MANDELBROT_COLOR_COSMOSMIX:
+		case MANDELBROT_COLOR_REVERSE:
+		case MANDELBROT_COLOR_CYCLIC:
+		case MANDELBROT_COLOR_NONE:
+			fprintf(F, "%3u ", convertColor(m, c).raw);
+			break;
+		case MANDELBROT_COLOR_RGB:
+		case MANDELBROT_COLOR_RGBL:
+		{
+			color_t col = convertColor(m, c);
+			fprintf(F, "%3u %3u %3u  ", col.rgb.r,col.rgb.g,col.rgb.b);
+		}	break;
+	}
+}
+static inline
+void writeNextLine(const Mandelbrot *m, FILE *F){
+	fprintf(F, "\n");
+}
+static inline
+void writeEnd(const Mandelbrot *m, FILE *F){
+}
+
 
 // EO Coloring
 
 
 // Resolution functions
 
-inline float getResolution(float screen, float width){
+static inline
+mfloat_t getResolution(mfloat_t screen, mfloat_t width){
 	return width / (screen - 1);
 }
 
-inline float convertX(const Mandelbrot *m, uint x){
+static inline
+mfloat_t convertX(const Mandelbrot *m, uint32_t x){
 	return m->x + m->resx * x;
 }
 
-inline float convertY(const Mandelbrot *m, uint y){
+static inline
+mfloat_t convertY(const Mandelbrot *m, uint32_t y){
 	return m->y + m->resy * y;
 }
 
@@ -72,26 +173,29 @@ inline float convertY(const Mandelbrot *m, uint y){
 #define DO_ABS(a)	if (a < 0) a = -a
 #define DO_ABSR(a)	if (a > 0) a = -a
 
-inline static float ABS(float a){
+static inline
+mfloat_t ABS(mfloat_t a){
 	return a > 0 ? a : -a;
 }
 
-inline static void SWAP(double *a, double *b){
-	double t = *a;
+static inline
+void SWAP(mfloat_t *a, mfloat_t *b){
+	mfloat_t t = *a;
 	*a = *b;
 	*b = t;
 }
 
 // Z itself
 
-static color Z_mandelbrot(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_mandelbrot(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -105,17 +209,18 @@ static color Z_mandelbrot(float x, float y, color it){
 	return i;
 }
 
-static color Z_burningship(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_burningship(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		DO_ABS(zx);
 		DO_ABS(zy);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -129,16 +234,17 @@ static color Z_burningship(float x, float y, color it){
 	return i;
 }
 
-static color Z_perpendicularburningship(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_perpendicularburningship(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		DO_ABS(zy);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -152,16 +258,17 @@ static color Z_perpendicularburningship(float x, float y, color it){
 	return i;
 }
 
-static color Z_perpendicularmandelbrot(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_perpendicularmandelbrot(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		DO_ABSR(zx);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -175,17 +282,18 @@ static color Z_perpendicularmandelbrot(float x, float y, color it){
 	return i;
 }
 
-static color Z_perpendicularbuffaloreal(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_perpendicularbuffaloreal(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 	//	DO_ABS(zx);
 	//	DO_ABS(zy);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -199,16 +307,17 @@ static color Z_perpendicularbuffaloreal(float x, float y, color it){
 	return i;
 }
 
-static color Z_perpendicularbuffalo(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_perpendicularbuffalo(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		DO_ABS(zy);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -222,14 +331,15 @@ static color Z_perpendicularbuffalo(float x, float y, color it){
 	return i;
 }
 
-static color Z_celtic(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_celtic(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -243,16 +353,17 @@ static color Z_celtic(float x, float y, color it){
 	return i;
 }
 
-static color Z_perpendicularceltic(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_perpendicularceltic(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		DO_ABSR(zx);
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -266,16 +377,17 @@ static color Z_perpendicularceltic(float x, float y, color it){
 	return i;
 }
 
-static color Z_mandelbar(float x, float y, color it){
-	float zx = 0;
-	float zy = 0;
+static
+iter_t Z_mandelbar(mfloat_t x, mfloat_t y, iter_t it){
+	mfloat_t zx = 0;
+	mfloat_t zy = 0;
 
-	color i;
+	iter_t i;
 	for(i = 0; i < it; ++i){
 		zy = - zy;
 
-		float zx2 = zx * zx;
-		float zy2 = zy * zy;
+		mfloat_t zx2 = zx * zx;
+		mfloat_t zy2 = zy * zy;
 
 		if (zx2 + zy2 > ESCAPE2)
 			return i;
@@ -289,43 +401,52 @@ static color Z_mandelbar(float x, float y, color it){
 	return i;
 }
 
-static color Z(const Mandelbrot *m, float x, float y){
+static
+iter_t Z(const Mandelbrot *m, mfloat_t x, mfloat_t y){
 	switch(m->absolute){
-	case MANDELBROT_TYPE_MANDELBROT				: return Z_mandelbrot(x, y, m->iter);
-	case MANDELBROT_TYPE_BURNINGSHIP			: return Z_burningship(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP		: return Z_perpendicularburningship(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT		: return Z_perpendicularmandelbrot(x, y, m->iter);
-	case MANDELBROT_TYPE_CELTIC				: return Z_celtic(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_CELTIC		: return Z_perpendicularceltic(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO		: return Z_perpendicularbuffalo(x, y, m->iter);
-	case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO_ORGIGINAL	: return Z_perpendicularbuffaloreal(x, y, m->iter);
-	case MANDELBROT_TYPE_MANDELBAR				: return Z_mandelbar(x, y, m->iter);
+		case MANDELBROT_TYPE_MANDELBROT:
+			return Z_mandelbrot(x, y, m->iter);
+		case MANDELBROT_TYPE_BURNINGSHIP:
+			return Z_burningship(x, y, m->iter);
+		case MANDELBROT_TYPE_PERPENDICULAR_BURNINGSHIP:
+			return Z_perpendicularburningship(x, y, m->iter);
+		case MANDELBROT_TYPE_PERPENDICULAR_MANDELBROT:
+			return Z_perpendicularmandelbrot(x, y, m->iter);
+		case MANDELBROT_TYPE_CELTIC:
+			return Z_celtic(x, y, m->iter);
+		case MANDELBROT_TYPE_PERPENDICULAR_CELTIC:
+			return Z_perpendicularceltic(x, y, m->iter);
+		case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO:
+			return Z_perpendicularbuffalo(x, y, m->iter);
+		case MANDELBROT_TYPE_PERPENDICULAR_BUFFALO_ORGIGINAL:
+			return Z_perpendicularbuffaloreal(x, y, m->iter);
+		case MANDELBROT_TYPE_MANDELBAR:
+			return Z_mandelbar(x, y, m->iter);
 	}
 	
-	return Z_mandelbrot(x, y, m->iter);;
+	return Z_mandelbrot(x, y, m->iter);
 }
 
 // EO Z itself
 
 
 int mandelbrot_generate(const Mandelbrot *m, FILE *F){
-	fprintf(F, "P2\n");
-	fprintf(F, "%u %u\n", m->scrx, m->scry);
-	fprintf(F, "%u\n", m->iter);
+	writeHeader(m,F);
 
-	uint x, y;
+	uint32_t x, y;
 
 	for(y = 0; y < m->scry; ++y){
-		float yr = convertY(m, y);
+		mfloat_t yr = convertY(m, y);
 		for(x = 0; x < m->scrx; ++x){
-			float xr = convertX(m, x);
-			color c = Z(m, xr, yr);
-
-			fprintf(F, "%2u ", convertColor(m, c));
+			mfloat_t xr = convertX(m, x);
+			iter_t c = Z(m, xr, yr);
+			writeColor(m,F,c);
 		}
 
-		fprintf(F, "\n");
+		writeNextLine(m,F);
 	}
+	
+	writeEnd(m,F);
 
 	return 0;
 }
@@ -335,14 +456,14 @@ int mandelbrot_generate_stdout(const Mandelbrot *m){
 }
 
 const Mandelbrot *mandelbrot_get(Mandelbrot *m,
-		uint scrx,      uint scry,
+		uint32_t scrx,      uint32_t scry,
 		enum MandelbrotType absolute,	enum MandelbrotColor colorscheme,
-		color iter,
-		float centerx, float centery,
-		float half_widthx
+		iter_t iter,
+		mfloat_t centerx, mfloat_t centery,
+		mfloat_t half_widthx
 	){
 
-	float half_widthy = half_widthx * scry / scrx;
+	mfloat_t half_widthy = half_widthx * scry / scrx;
 
 	m->scrx = scrx;
 	m->scry = scry;

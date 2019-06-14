@@ -4,9 +4,9 @@
 
 #define EXAMPLE_FLOAT "%12.9f"
 
-static void printE(const char *descr, const char *p, uint type, uint colorsheme, color iter, float xx, float yy, float zoom){
-	const uint scrx = 1280;
-	const uint scry = 1024;
+static void printE(const char *descr, const char *p, uint32_t type, uint32_t colorsheme, iter_t iter, mfloat_t xx, mfloat_t yy, mfloat_t zoom){
+	const uint32_t scrx = 1280;
+	const uint32_t scry = 1024;
 
 	static const char *mask1 = "   %s\n";
 	static const char *mask2 = "      %s %u %u %3u %u %4u " EXAMPLE_FLOAT " " EXAMPLE_FLOAT " " EXAMPLE_FLOAT "\n\n";
@@ -16,8 +16,8 @@ static void printE(const char *descr, const char *p, uint type, uint colorsheme,
 }
 
 static void printExamples(const char *p){
-	const color iter =  64;
-	const color iter2 = 256;
+	const iter_t iter =  64;
+	const iter_t iter2 = 256;
 
 	printf("%s\n", "Mandelbrot Examples:");
 
@@ -140,17 +140,17 @@ static const Mandelbrot *getMandelbrotData(const char **s){
 	return mandelbrot_get(
 		&mpl,			// placeholder
 
-		(uint) atol(s[1]),	// scr_x
-		(uint) atol(s[2]),	// scr_y
+		(uint32_t) atol(s[1]),	// scr_x
+		(uint32_t) atol(s[2]),	// scr_y
 
 		(enum MandelbrotType)  atol(s[3]),	// mandelbrot type
 		(enum MandelbrotColor) atol(s[4]),	// color scheme
-		(color) atol(s[5]),	// iterations
+		(iter_t) atol(s[5]),	// iterations
 
-		(float) atof(s[6]),	// x
-		(float) atof(s[7]),	// y
+		(mfloat_t) atof(s[6]),	// x
+		(mfloat_t) atof(s[7]),	// y
 
-		(float) atof(s[8])	// half x size
+		(mfloat_t) atof(s[8])	// half x size
 	);
 }
 
